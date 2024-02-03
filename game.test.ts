@@ -26,6 +26,22 @@ describe("game", () => {
     const result = game.getNumberColumns();
     expect(result).toEqual(2);
   });
+  it("will get a row by index", () => {
+    const game = new Game(PD_TEST);
+    const result = game.getRowByIndex(0);
+    expect(result).toEqual([
+      [-1, -1],
+      [-12, 0],
+    ]);
+  });
+  it("will get a column by index", () => {
+    const game = new Game(PD_TEST);
+    const result = game.getColumnByIndex(0);
+    expect(result).toEqual([
+      [-1, -1],
+      [0, -12],
+    ]);
+  });
   it("will remove a row by index", () => {
     const game = new Game(PD_TEST);
     game.removeRowByIndex(0);
