@@ -5,34 +5,38 @@ export class Game {
   matrix: GameMatrix;
 
   constructor(matrix: GameMatrix) {
-    this.matrix = matrix;
+    this.matrix = matrix.map((row) => [...row]);
   }
 
   getNumberRows = (): number => {
-    //TODO
-    return 0;
+    return this.matrix.length;
   };
 
   getNumberColumns = (): number => {
-    //TODO
-    return 0;
+    return this.matrix[0].length;
   };
 
   getRowByIndex = (i: number): Payoffs[] => {
-    //TODO
-    return [];
+    //add error checking?
+    return this.matrix[i];
   };
 
   getColumnByIndex = (i: number): Payoffs[] => {
-    //TODO
-    return [];
+    const column: Payoffs[] = [];
+    for (const row of this.matrix) {
+      column.push(row[i]);
+    }
+    return column;
   };
 
   removeRowByIndex = (i: number): void => {
-    //TODO
+    //add returning the removed row?
+    this.matrix.splice(i, 1);
   };
 
   removeColumnByIndex = (i: number): void => {
-    //TODO
+    for (const row of this.matrix) {
+      row.splice(i, 1);
+    }
   };
 }
