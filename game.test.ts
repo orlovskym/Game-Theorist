@@ -55,6 +55,6 @@ describe("game", () => {
   it("will remove a column by index", () => {
     const game = new Game(PD_TEST);
     game.removeColumnByIndex(1);
-    expect(game.matrix).toEqual([[[-12, 0]], [[-8, -8]]]);
+    expect(game.matrix).toEqual([[[-1, -1]], [[0, -12]]]);
   });
 });
