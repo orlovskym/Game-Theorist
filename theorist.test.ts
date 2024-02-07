@@ -9,7 +9,12 @@ describe("theorist", () => {
     const result = theorist.getBestResponse(0, 0);
     expect(result).toEqual(1);
   });
-  it("will find the strictly dominant strategy", () => {
+  it("will find the strictly dominant strategy for player 0", () => {
+    const theorist = new Theorist(new Game(PrisonersDilemma));
+    const result = theorist.getStrictlyDominantStrategy(0);
+    expect(result).toEqual(1);
+  });
+  it("will find the strictly dominant strategy for player 1", () => {
     const theorist = new Theorist(new Game(PrisonersDilemma));
     const result = theorist.getStrictlyDominantStrategy(1);
     expect(result).toEqual(1);
@@ -21,12 +26,12 @@ describe("theorist", () => {
   });
   it("will solve games by searching for strict dominance", () => {
     const theorist = new Theorist(new Game(PrisonersDilemma));
-    const result = theorist.solveByStrictDominance;
+    const result = theorist.solveByStrictDominance();
     expect(result).toEqual([1, 1]);
   });
   it("will identify when a game cannot be solved by strict dominance", () => {
     const theorist = new Theorist(new Game(Duopoly));
-    const result = theorist.solveByStrictDominance;
+    const result = theorist.solveByStrictDominance();
     expect(result).toEqual(-1);
   });
 });
