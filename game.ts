@@ -1,4 +1,4 @@
-type Payoffs = [number, number];
+export type Payoffs = [number, number];
 export type GameMatrix = Payoffs[][];
 
 export class Game {
