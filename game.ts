@@ -31,6 +31,26 @@ export class Game {
     return column;
   };
 
+  getStrategy = (isPlayer1: boolean, strategyIndex: number): Payoffs[] => {
+    if (isPlayer1) {
+      return this.getRowByIndex(strategyIndex);
+    } else {
+      return this.getColumnByIndex(strategyIndex);
+    }
+  };
+
+  getAllStrategiesForPlayer = (isPlayer1: boolean): Payoffs[][] => {
+    if (isPlayer1) {
+      return this.matrix;
+    } else {
+      const output: Payoffs[][] = [];
+      for (let i = 0; i < this.getNumberColumns(); i++) {
+        output.push(this.getColumnByIndex(i));
+      }
+      return output;
+    }
+  };
+
   removeRowByIndex = (i: number): void => {
     //add returning the removed row?
     this.matrix.splice(i, 1);
