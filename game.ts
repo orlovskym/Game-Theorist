@@ -1,6 +1,6 @@
-//Payoffs represent points scored, first by Player 0 and second by Player 1. The more points, the better.
+//Payoffs represent points scored, first by Player 1 and second by Player 2. The more points, the better.
 export type Payoffs = [number, number];
-//A GameMatrix is a 2d grid of Payoffs. Each row represents a strategy available to Player 0, and each column a strategy available to Player 1.
+//A GameMatrix is a 2d grid of Payoffs. Each row represents a strategy available to Player 1, and each column a strategy available to Player 2.
 export type GameMatrix = Payoffs[][];
 
 export class Game {

@@ -6,22 +6,22 @@ import { Duopoly, PrisonersDilemma } from "./games";
 describe("theorist", () => {
   it("will find the best response to an opponent's strategy", () => {
     const theorist = new Theorist(new Game(PrisonersDilemma));
-    const result = theorist.getBestResponse(0, 0);
+    const result = theorist.getBestResponse(true, 0);
     expect(result).toEqual(1);
   });
   it("will find the strictly dominant strategy for player 0", () => {
     const theorist = new Theorist(new Game(PrisonersDilemma));
-    const result = theorist.getStrictlyDominantStrategy(0);
+    const result = theorist.getStrictlyDominantStrategy(true);
     expect(result).toEqual(1);
   });
   it("will find the strictly dominant strategy for player 1", () => {
     const theorist = new Theorist(new Game(PrisonersDilemma));
-    const result = theorist.getStrictlyDominantStrategy(1);
+    const result = theorist.getStrictlyDominantStrategy(false);
     expect(result).toEqual(1);
   });
   it("will identify when there is no strictly dominant strategy", () => {
     const theorist = new Theorist(new Game(Duopoly));
-    const result = theorist.getStrictlyDominantStrategy(0);
+    const result = theorist.getStrictlyDominantStrategy(true);
     expect(result).toEqual(-1);
   });
   it("will solve games by searching for strict dominance", () => {
