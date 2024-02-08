@@ -1,5 +1,28 @@
 import { Game, Payoffs } from "./game";
 
+function findIndexOfLargestValue(numbers: number[]): number {
+  let maxIndex = 0;
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > numbers[maxIndex]) {
+      maxIndex = i;
+    }
+  }
+  return maxIndex;
+}
+
+function isAllSameValue(values: number[]): boolean {
+  if (!values) throw new Error("Empty array was passed to isAllSameValue");
+  if (values.length === 1) {
+    return true;
+  }
+  for (let i = 1; i < values.length; i++) {
+    if (values[0] !== values[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export class Theorist {
   game: Game;
 
@@ -9,45 +32,36 @@ export class Theorist {
 
   getBestResponse(isPlayer1: boolean, opponentStrategy: number): number {
     //return the index of the best response to given opponent strategy
-    //first, get the row or column that corresponds to the opponent's strategy
-    let possibilities: Payoffs[] = [];
-    if (isPlayer1) {
-      possibilities = this.game.getColumnByIndex(opponentStrategy);
-    } else {
-      possibilities = this.game.getRowByIndex(opponentStrategy);
-    }
+    //first, get my opponent's strategy
+    const possiblePayoffs: Payoffs[] = this.game.getStrategy(
+      !isPlayer1,
+      opponentStrategy
+    );
     //create an array of the possible scores I can get with all of my responses
-    const possibleScores: number[] = [];
-    for (const possibility of possibilities) {
-      possibleScores.push(possibility[isPlayer1 ? 0 : 1]);
-    }
+    const possibleScores: number[] = this.getPlayerResponses(
+      isPlayer1,
+      possiblePayoffs
+    );
     //return the index that corresponds to the highest score I can achieve
-    return possibleScores.indexOf(Math.max(...possibleScores));
+    return findIndexOfLargestValue(possibleScores);
+  }
+
+  getPlayerResponses(isPlayer1: boolean, strategy: Payoffs[]): number[] {
+    return strategy.map((option) => option[isPlayer1 ? 0 : 1]);
   }
 
   getStrictlyDominantStrategy(isPlayer1: boolean): number {
-    //if one strategy is always the best, return its index. Otherwise, return -1
+    //if one strategy is always the best for the given player, return its index. Otherwise, return -1
     //build an array of all possible opponent strategies
-    let opposingStrategies: Payoffs[][] = [];
-    if (isPlayer1) {
-      for (let i = 0; i < this.game.getNumberColumns(); i++) {
-        opposingStrategies.push(this.game.getColumnByIndex(i));
-      }
-    } else {
-      opposingStrategies = this.game.matrix;
-    }
+    const opposingStrategies: Payoffs[][] = this.game.getAllStrategiesForPlayer(
+      !isPlayer1
+    );
     //build an array of my best response to each opponent strategy
-    const bestResponses: number[] = [];
-    for (let i = 0; i < opposingStrategies.length; i++) {
-      bestResponses.push(this.getBestResponse(isPlayer1, i));
-    }
+    const bestResponses: number[] = opposingStrategies.map((_, i) =>
+      this.getBestResponse(isPlayer1, i)
+    );
     //if the same strategy is always my best choice, return its index. Otherwise, return -1
-    for (let i = 1; i < bestResponses.length; i++) {
-      if (bestResponses[0] !== bestResponses[i]) {
-        return -1;
-      }
-    }
-    return bestResponses[0];
+    return isAllSameValue(bestResponses) ? bestResponses[0] : -1;
   }
 
   solveByStrictDominance(): number[] | -1 {
@@ -56,9 +70,6 @@ export class Theorist {
       this.getStrictlyDominantStrategy(true),
       this.getStrictlyDominantStrategy(false),
     ];
-    if (dominantStrategies.includes(-1)) {
-      return -1;
-    }
-    return dominantStrategies;
+    return dominantStrategies.includes(-1) ? -1 : dominantStrategies;
   }
 }
