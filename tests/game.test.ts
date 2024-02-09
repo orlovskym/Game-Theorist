@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Game } from "./game";
-import { PrisonersDilemma } from "./presetGames";
+import { Game } from "../src/game";
+import { PrisonersDilemma } from "../src/presetGames";
 
 describe("game", () => {
   it("will count its number of rows", () => {
