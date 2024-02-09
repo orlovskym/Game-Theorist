@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Game } from "./game";
 import { Theorist } from "./theorist";
-import { Duopoly, PrisonersDilemma } from "./games";
+import { Duopoly, PrisonersDilemma } from "./presetGames";
 
 describe("theorist", () => {
   it("will find the best response to an opponent's strategy", () => {
